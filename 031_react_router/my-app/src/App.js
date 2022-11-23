@@ -10,17 +10,21 @@ https://www.studyin.co.kr/study/6/memo
 https://www.studyin.co.kr/notice
 https://www.studyin.co.kr/notice/recruit
 https://www.studyin.co.kr/notice/business
+
 // step 1
 https://www.studyin.co.kr/
 https://www.studyin.co.kr/login
 https://www.studyin.co.kr/study
 https://www.studyin.co.kr/notice
+
 // step 2
 https://www.studyin.co.kr/study/6 를 들어갔을 때에
 <p>6번 게시물에 오신것을 환영합니다. 여기서 fetch를 통해 백엔드로부터 6번 게시물을 요청하셔야 합니다.</p>
+
 // step 2
 https://www.studyin.co.kr/study/6/chat
 https://www.studyin.co.kr/study/6/memo 를 들어갔을 때에 각각
+
 <p>6번 게시물에 오신것을 환영합니다. 여기는 6번 게시물의 채팅방입니다.</p>
 <p>6번 게시물에 오신것을 환영합니다. 여기는 6번 게시물의 메모방입니다.</p>
 */

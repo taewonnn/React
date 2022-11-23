@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 
 function 부하(){
   let s = 0
@@ -10,15 +10,13 @@ function 부하(){
 
 function App() {
   const [count, setCount] = useState(0)
-  const result = useMemo(()=>{
-    return 부하()
-  }, [])
+  let result = 부하()
 
   const handleCountUp = (e) => {
     setCount(count + 1)
     console.log(count)
   }
-
+  
   return (
     <div>
       <h1>계산 결과 : {result}</h1>

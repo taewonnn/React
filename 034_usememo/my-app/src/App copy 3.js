@@ -1,56 +1,40 @@
-import React, { useRef, useState } from 'react'
+import { useState, useMemo } from 'react'
 
-export default function App() {
-  const inputName = useRef(null)
-  const inputId = useRef(null)
-  const [userInfo, setUserInfo] = useState([])
-  const [name, setName] = useState('')
-  const [id, setId] = useState('')
+function 부하(){
+  let s = 0
+  for (let i = 0; i < 1000000000; i++) {
+    s += i
+  }
+  return s
+}
 
-  function handleInputName(){
+function App() {
+  const [count, setCount] = useState(0)
+  const [countTwo, setCountTwo] = useState(0)
 
+  const result = useMemo(()=>{
+    return 부하()
+  }, [countTwo])
+
+  const handleCountUp = (e) => {
+    setCount(count + 1)
+    console.log(count)
+  }
+  const handleCountUpTwo = (e) => {
+    setCountTwo(countTwo + 1)
+    console.log(countTwo)
   }
 
-  function handleInputId(){
-    
-  }
-
-  function handleSubmit(){
-
-  }
-
-  function getNum(){
-
-  }
+  console.log('랜더링!')
 
   return (
-    <>
-      <form>
-        <input 
-          type='text'
-          placeholder='이름을 입력하세요'
-          onChange={handleInputName}
-          ref={inputName}
-        />
-        <input 
-          type='text'
-          placeholder='아이디를 입력하세요'
-          onChange={handleInputId}
-          ref={inputId}
-        />
-        <button type='submit' onClick={handleSubmit}>버튼</button>
-      </form>
-      <ul>
-        {
-          userInfo.map((value, index) => (
-            <li key={index}>
-              <h3>이름 : {value.name}</h3>
-              <strong>아이디 : {value.id}</strong>
-            </li>
-          ))
-        }
-      </ul>
-      <span>{getNum(userInfo)}</span>
-    </>
-  )
+    <div>
+      <h1>계산 결과 : {result}</h1>
+      <div>count : {count}</div>
+      <button onClick={handleCountUp}>One UP!</button>
+      <div>countTwo : {countTwo}</div>
+      <button onClick={handleCountUpTwo}>Two UP!</button>
+    </div>
+  );
 }
+export default App;

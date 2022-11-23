@@ -1,44 +1,64 @@
-function One(){
-  return (
-    <section>
-      <img src="https://picsum.photos/200/300​" alt="" />
-      <h2>One</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reprehenderit ipsam quas, temporibus eius est, porro ex repudiandae sed illum voluptatem, nemo dolorem corporis iusto sapiente facere! Illo, quae. Consequatur.</p>
-      <a href="#">SHARE</a>
-      <a href="#">LEARN MORE</a>
-    </section>
-  )
-}
+import styled from "styled-components";
 
-function Two(){
-  return (
-    <section>
-      <img src="https://picsum.photos/200/300​" alt="" />
-      <h2>Two</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reprehenderit ipsam quas, temporibus eius est, porro ex repudiandae sed illum voluptatem, nemo dolorem corporis iusto sapiente facere! Illo, quae. Consequatur.</p>
-      <a href="#">SHARE</a>
-    </section>
-  )
-}
+const CardDiv = styled.div`
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #c4c4c4;
+  margin-bottom: 20px;
+  width: ${(props) => (props.className === "setting" ? "200px" : "400px")};
+`;
 
-function Three(){
+
+const Card = (props) => {
+  console.log('// Card 시작')
+  console.log(props)
+  console.log('// Card 끝')
   return (
-    <section>
-      <img src="https://picsum.photos/200/300​" alt="" />
-      <h2>Three</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reprehenderit ipsam quas, temporibus eius est, porro ex repudiandae sed illum voluptatem, nemo dolorem corporis iusto sapiente facere! Illo, quae. Consequatur.</p>
-      <a href="#">SHARE</a>
-    </section>
-  )
-}
+    <CardDiv className={props.className}>
+      <h3>{props.value}</h3>
+      <hr />
+      <div>{props.children}</div>
+    </CardDiv>
+  );
+};
+
+const SettingCard = () => {
+  return (
+    <>
+      <button>초기화</button>
+      <button>저장하기</button>
+    </>
+  );
+};
+
+const ShareCard = () => {
+  return (
+    <>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque ut
+        eveniet, laudantium, deleniti autem sequi molestias magni quia, aliquam
+        et praesentium nostrum dolores culpa cupiditate unde doloremque labore
+        beatae accusamus.
+      </p>
+      <div>
+        <button>이미지 저장</button>
+        <button>트위터</button>
+        <button>페이스북</button>
+      </div>
+    </>
+  );
+};
 
 
 function App() {
   return (
     <>
-      <One />
-      <Two />
-      <Three />
+      <Card className="setting" value="챌린지 설정">
+        <SettingCard />
+      </Card>
+      <Card className="share" value="서비스 공유하기">
+        <ShareCard />
+      </Card>
     </>
   );
 }

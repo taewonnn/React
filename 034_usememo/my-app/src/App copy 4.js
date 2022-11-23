@@ -7,20 +7,33 @@ export default function App() {
   const [name, setName] = useState('')
   const [id, setId] = useState('')
 
-  function handleInputName(){
-
+  function handleInputName(e){
+    console.log(e)
+    setName(e.target.value)
+    console.log('렌더링 - 1')
   }
 
-  function handleInputId(){
-    
+  function handleInputId(e){
+    console.log(e)
+    setId(e.target.value)
+    console.log('렌더링 - 2')
   }
 
-  function handleSubmit(){
-
+  function handleSubmit(e){
+    e.preventDefault()
+    // userInfo.push({});
+    const newInfo = [...userInfo, {name, id}]
+    inputName.current.value = ''
+    inputId.current.value = ''
+    inputName.current.focus()
+    setUserInfo(newInfo)
+    console.log('렌더링 - 3')
   }
 
-  function getNum(){
-
+  // 모든 렌더링에 함께 렌더링되는 이슈가 있습니다.
+  function getNum(li){
+    console.log('렌더링!')
+    return li.length
   }
 
   return (
@@ -38,7 +51,7 @@ export default function App() {
           onChange={handleInputId}
           ref={inputId}
         />
-        <button type='submit' onClick={handleSubmit}>버튼</button>
+        <button type='submit' onClick={handleSubmit}>회원 명부 작성</button>
       </form>
       <ul>
         {

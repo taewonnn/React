@@ -10,30 +10,20 @@ function 부하(){
 
 function App() {
   const [count, setCount] = useState(0)
-  const [countTwo, setCountTwo] = useState(0)
-
   const result = useMemo(()=>{
     return 부하()
-  }, [countTwo])
+  }, [])
 
   const handleCountUp = (e) => {
     setCount(count + 1)
     console.log(count)
   }
-  const handleCountUpTwo = (e) => {
-    setCountTwo(countTwo + 1)
-    console.log(countTwo)
-  }
-
-  console.log('랜더링!')
 
   return (
     <div>
       <h1>계산 결과 : {result}</h1>
-      <div>count : {count}</div>
-      <button onClick={handleCountUp}>One UP!</button>
-      <div>countTwo : {countTwo}</div>
-      <button onClick={handleCountUpTwo}>Two UP!</button>
+      <div>{count}</div>
+      <button onClick={handleCountUp}>UP!</button>
     </div>
   );
 }

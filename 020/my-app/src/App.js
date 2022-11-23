@@ -1,6 +1,5 @@
-import One from './components/One';
-import Two from './components/Two';
-
+import One from "./Components/One";
+import Two from "./Components/Two";
 
 function App() {
   return (

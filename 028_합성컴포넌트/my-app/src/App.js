@@ -2,7 +2,7 @@ function Card(props){
   return (
     <section>
       <img src="http://test.api.weniv.co.kr/asset/img/1/thumbnailImg.jpg" alt="" />
-      <h2>title</h2>
+      <h2>{props.title}</h2>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reprehenderit ipsam quas, temporibus eius est, porro ex repudiandae sed illum voluptatem, nemo dolorem corporis iusto sapiente facere! Illo, quae. Consequatur.</p>
       {props.children}
     </section>
@@ -38,9 +38,9 @@ function Three(){
 function App() {
   return (
     <>
-      <Card><One /></Card>
-      <Card><Two /></Card>
-      <Card><Three /></Card>
+      <Card title="One"><One /></Card>
+      <Card title="Two"><Two /></Card>
+      <Card title="Three"><Three /></Card>
     </>
   );
 }
