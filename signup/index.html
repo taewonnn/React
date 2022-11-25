@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>회원가입</title>
+</head>
+<body>
+    <div id="root">
+      <section class="email-pw">
+        <h2 class="main-title">이메일로 회원가입</h2>
+        <div class="input-container">
+          <label for="emailInput">이메일</label>
+          <input type="email" id="emailInput" name="email" data-state="0" placeholder="이메일 주소를 알려주세요.">
+        </div>
+        <div class="input-container input-container-pw">
+          <label for="passwordInput">비밀번호</label>
+          <input type="password" name="password" id="passwordInput" data-state="0" placeholder="비밀번호를 설정해 주세요.">
+        </div>
+        <button type="button" class="next-btn">다음</button>
+      </section>
+
+      <section class="profile">
+        <h2 class="main-title join-profile-title">프로필 설정</h2>
+        <p class="profile-info-txt">나중에 언제든지 변경할 수 있습니다.</p>
+        <label for="profileImg">
+          <img src="https://mandarin.api.weniv.co.kr/Ellipse.png" alt="" srcset="" id="imagePre">
+        </label>
+        <input type="file" id="profileImg" name="profile-img" accept="image/*" class="ir" />
+        <div class="input-container">
+          <label for="userNameInput">사용자 이름</label>
+          <input type="text" id="userNameInput" name="username" data-state="0" placeholder="2~10자 이내여야 합니다.">
+        </div>
+        <div class="input-container">
+          <label for="userIdInput">계정 ID</label>
+          <input type="text" id="userIdInput" name="accountname" data-state="0" placeholder="영문, 숫자, 특수문자(,), (_)만 사용 가능합니다.">
+        </div>
+        <div class="input-container input-container-intro">
+          <label for="userIntroInput">소개</label>
+          <input type="text" id="userIntroInput" name="intro" data-state="1" placeholder="자신과 판매할 상품에 대해 소개해 주세요.">
+        </div>
+        <button type="button" class="submit-btn">감귤마켓 시작하기</button>
+      </section>
+    </div>
+
+  <script>
+    //  1. API 명세 확인 -> 2. 데이터를 모은다 (input창에 입력된 정보들)
+    // 데이터를 모으는 것 : submit을 하기 위해 필요한 데이터 읽고 만들기!
+
+
+    // 1-1. submit버튼을 클릭헀을 때 클릭이 잘 되는지 확인!
+    // 1-1-1. DOM(Document Object Model) 선택!
+    // document- 내 문서(화면 전체) / query - 명령!
+    const submitBtn = document.querySelector(".submit-btn");
+    const emailInput = document.querySelector("#emailInput");
+    const passwordInput = document.querySelector("#passwordInput");
+    const userNameInput = document.querySelector("#userNameInput");
+    const userIdInput = document.querySelector("#userIdInput");
+    const userIntroInput = document.querySelector("#userIntroInput");
+
+
+    // 1-1-2. 버튼 선택이 잘 됬는지 확인하기(해당 버튼 클릭 시에 콘솔에 체크가 되는지 확인!)
+    // 1-2. 버튼을 클릭했을 때 데이터를 받아오도록 하고싶다!
+    const onClick = () => {
+      console.log("클릭됨");
+      // 각 인풋창의 값이 제대로 받아오는지 Email만 콘솔로 먼저 확인해보기!
+      // const email = emailInput.value;
+      // const username = userNameInput.value;
+      // const password = passwordInput.value;
+      // const accountname = userIdInput.value;
+      // const intro = userIntroInput.value;
+
+      // const data = {
+      //   "user": {
+      //   "username": username,
+      //   "email": email,
+      //   "password": password,
+      //   "accountname": accountname,
+      //   "intro": intro,
+      //   }
+      // }
+      // console.log(data);
+
+        // 위에처럼 각각을 선택해서 정의할 수 있긴하나 너무 귀찮다 -> 데이터를 한 번에 받아오고 싶어!
+        // 모든 input을 한 번에 선택!
+        const inputs = document.querySelectorAll('#root input')
+        console.log(inputs)
+        // const data = {}
+        // inputs.forEach((inputEl) => {
+        //   // console.log("인풋 네임",inputEl.name);
+        //   // console.log("input value",inputEl.value);
+        //   if(inputEl.name == "profile-img"){
+        //     return;
+        //   }
+        //   data[inputEl.name] = inputEl.value
+        // })
+
+
+        // reduce 사용하여 위 코드를 더 짧게 해보기!
+        const data = [...inputs].reduce((data,inputEl)=>{
+        if(inputEl.name == "profile-img"){
+          return data;
+        }
+          data[inputEl.name] = inputEl.value;
+          return data
+        },{})
+
+        const userData = {user: data}
+        fetch("https://mandarin.api.weniv.co.kr/user", {
+          method: "post",
+          headers: {
+            "Content-type" : "application/json"
+          },
+          body: JSON.stringify(userData)
+        }).then((res)=>res.json()).then((json)=>console.log(json))
+      }
+      
+      
+
+  
+
+
+    // 이벤트 등록하기
+    submitBtn.addEventListener("click", onClick)
+
+
+    // 비동기 설명
+    // 동기(이어달리기)
+    // 사람1 -> 짜장면을 시킴 -> 짜장면이 올 때 까지 기다리기 -> 도착하면 짜장면 먹기
+
+    // 비동기(선착순)
+    // 사람2 -> 짜장면을 시킴 -> 유튜브 보기 -> 도착해도 유튜브 마저 보기 -> 나중에 온 것 확인해서 먹기
+
+
+
+    // fetch 설명
+    // fetch -> 전화를 건다!
+    // .then() 대답은 ~
+
+    // const 요청명세생성기 = (배송형태,요청사항,주문정보) =>{
+    //   const 뭔가데이터오브젝트 = {
+    //     method:배송형태,// post, get, delete 등 적기
+    //     headers:요청사항,
+    //     body:JSON.stringify(주문정보)//body data 문자열형태로 넣기
+    //   }
+    //   return 뭔가데이터오브젝트
+    // }
+    // const 가게 = "http://146.56.183.55:5050/user"
+    // const 요청명세 = 요청명세생성기("POST",{"Content-type" : "application/json"},userData)
+
+    // fetch(가게,요청명세).then((res)=>res.json()).then((json)=>console.log(json))
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
