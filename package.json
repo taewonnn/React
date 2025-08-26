@@ -11,6 +11,7 @@
     "start:customhook": "lerna run start --scope customhook",
     "start:useeffect": "lerna run start --scope useeffect",
     "build": "lerna run build",
-    "dev": "lerna run dev"
+    "dev": "lerna run dev",
+    "use-node22": "source ~/.nvm/nvm.sh && nvm use 22"
   }
 }
