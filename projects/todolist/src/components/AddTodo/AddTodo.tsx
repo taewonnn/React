@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IAddTodo {
-  onAdd: (todo: { id: number; todo: string; status: string }) => void;
+  onAdd: (todo: { id: string; todo: string; status: string }) => void;
 }
 
 export default function AddTodo({ onAdd }: IAddTodo) {
@@ -19,7 +20,7 @@ export default function AddTodo({ onAdd }: IAddTodo) {
       return;
     }
 
-    onAdd({ id: Date.now(), todo: text, status: 'active' });
+    onAdd({ id: uuidv4(), todo: text, status: 'active' });
     setText('');
   };
 

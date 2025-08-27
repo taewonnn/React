@@ -1,12 +1,8 @@
-export interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+import type { Todo } from './components/TodoList/TodoList';
 
 export const todos: Todo[] = [
-  { id: 1, text: 'React 공부하기', completed: false },
-  { id: 2, text: 'TypeScript 배우기', completed: true },
-  { id: 3, text: '프로젝트 만들기', completed: false },
-  { id: 4, text: '코드 리뷰하기', completed: false },
+  { id: '1', todo: 'React 공부하기', status: 'active' },
+  { id: '2', todo: 'TypeScript 배우기', status: 'active' },
+  { id: '3', todo: '프로젝트 만들기', status: 'active' },
+  { id: '4', todo: '코드 리뷰하기', status: 'active' },
 ];
