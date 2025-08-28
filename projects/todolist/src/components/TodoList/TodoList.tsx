@@ -14,6 +14,11 @@ export default function TodoList() {
   return (
     <section>
       <ul>
+        <button>Todo</button>
+        <button>Doing</button>
+        <button>Done</button>
+      </ul>
+      <ul>
         {todos.map(todo => (
           <Todo key={todo.id} todo={todo} />
         ))}
