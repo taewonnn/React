@@ -1,9 +1,7 @@
-import TodoList from './components/TodoList/TodoList';
-
 function App() {
   return (
     <>
-      <TodoList />
+      <div className="text-red-500">test</div>
     </>
   );
 }
