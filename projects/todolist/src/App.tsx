@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center">
       <Tab tab={tab} setTab={setTab} />
-      <TodoList todo={todo} setTodo={setTodo} />
+      <TodoList todo={todo} setTodo={setTodo} tab={tab} />
       <AddTodo todo={todo} setTodo={setTodo} />
     </div>
   );

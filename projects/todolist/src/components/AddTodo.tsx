@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { ITodo } from '../App';
 import { v4 as uuidv4 } from 'uuid';
+import type { ITodo } from './TodoList';
 
 export default function AddTodo({
   todo,

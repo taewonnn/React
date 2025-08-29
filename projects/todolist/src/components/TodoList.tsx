@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import Card from './Card';
+import type { TabType } from './Tab';
 
 export interface ITodo {
   id: string;
@@ -9,9 +11,11 @@ export interface ITodo {
 export default function TodoList({
   todo,
   setTodo,
+  tab,
 }: {
   todo: ITodo[];
   setTodo: (todos: ITodo[]) => void;
+  tab: TabType;
 }) {
   /** 삭제 함수 */
   const handleDelte = (id: string) => {
@@ -28,9 +32,20 @@ export default function TodoList({
     );
   };
 
+  /** 필터된 할 일 목록 */
+
+  const filteredTodo = useMemo(() => {
+    return todo.filter(item => {
+      if (tab === 'All') return true; // 모든 항목
+      if (tab === 'Active') return !item.isDone; // 완료되지 않은 항목
+      if (tab === 'Completed') return item.isDone; // 완료된 항목
+      return true;
+    });
+  }, [todo, tab]);
+
   return (
     <div className="w-full max-w-2xl mx-auto mt-3">
-      {todo.map(item => (
+      {filteredTodo.map(item => (
         <Card
           key={item.id}
           text={item.text}
