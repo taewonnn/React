@@ -1,6 +1,5 @@
 import Card from './Card';
 import type { ITodo } from '../App';
-import { useEffect } from 'react';
 
 export default function TodoList({
   todo,
@@ -9,16 +8,19 @@ export default function TodoList({
   todo: ITodo[];
   setTodo: (todos: ITodo[]) => void;
 }) {
-  /** 세션과 동기화 */
-  useEffect(() => {
-    if (todo.length > 0) {
-      sessionStorage.setItem('todo', JSON.stringify(todo));
-    }
-  }, [todo]);
-
   /** 삭제 함수 */
   const handleDelte = (id: string) => {
     setTodo(todo.filter(item => item.id !== id));
+    sessionStorage.setItem('todo', JSON.stringify(todo.filter(item => item.id !== id))); // 세션에서도 삭제
+  };
+
+  /** 상태 변경 함수 */
+  const handleChangeStatus = (id: string) => {
+    setTodo(
+      todo.map(todoItem =>
+        todoItem.id === id ? { ...todoItem, isDone: !todoItem.isDone } : todoItem,
+      ),
+    );
   };
 
   return (
@@ -30,6 +32,7 @@ export default function TodoList({
           isDone={item.isDone}
           id={item.id}
           handleDelte={handleDelte}
+          handleChangeStatus={handleChangeStatus}
         />
       ))}
     </div>

@@ -1,14 +1,12 @@
-export default function Card({
-  text,
-  isDone,
-  id,
-  handleDelte,
-}: {
+interface ICard {
   text: string;
   isDone: boolean;
   id: string;
   handleDelte: (id: string) => void;
-}) {
+  handleChangeStatus: (id: string) => void;
+}
+
+export default function Card({ text, isDone, id, handleDelte, handleChangeStatus }: ICard) {
   return (
     <div
       className="w-full bg-white rounded-lg shadow-md p-4 mb-3 border border-gray-200 hover:shadow-lg transition-shadow duration-200"
@@ -17,11 +15,13 @@ export default function Card({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3 flex-1">
-          <div
-            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-              isDone ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-blue-400'
-            }`}
-          ></div>
+          <button onClick={() => handleChangeStatus(id)}>
+            <div
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                isDone ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-blue-400'
+              }`}
+            ></div>
+          </button>
           <span
             className={`text-gray-800 font-medium ${isDone ? 'line-through text-gray-500' : ''}`}
           >
