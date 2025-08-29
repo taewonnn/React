@@ -1,12 +1,8 @@
-import { useState } from 'react';
+export type TabType = 'All' | 'Active' | 'Completed'; // 타입
+const tabItems: TabType[] = ['All', 'Active', 'Completed']; // 탭 상수
 
-type TabType = 'All' | 'Active' | 'Completed';
-
-export default function Tab() {
-  const tabItems: TabType[] = ['All', 'Active', 'Completed'];
-
-  const [tab, setTab] = useState<TabType>('All');
-
+export default function Tab({ tab, setTab }: { tab: TabType; setTab: (status: TabType) => void }) {
+  /** 탭 변경 함수 */
   const handleChangeTab = (status: TabType) => {
     console.log(status);
     setTab(status);

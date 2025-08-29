@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import AddTodo from './components/AddTodo';
-import Tab from './components/Tab';
+import Tab, { type TabType } from './components/Tab';
 import TodoList from './components/TodoList';
 
 export interface ITodo {
@@ -18,11 +18,12 @@ function App() {
     }
   }, []);
 
-  const [todo, setTodo] = useState<ITodo[]>([]);
+  const [todo, setTodo] = useState<ITodo[]>([]); // 할 일 목록
+  const [tab, setTab] = useState<TabType>('All'); // 탭 상태
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Tab />
+      <Tab tab={tab} setTab={setTab} />
       <TodoList todo={todo} setTodo={setTodo} />
       <AddTodo todo={todo} setTodo={setTodo} />
     </div>
