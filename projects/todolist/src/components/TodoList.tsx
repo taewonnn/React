@@ -6,6 +6,7 @@ export interface ITodo {
   id: string;
   text: string;
   isDone: boolean;
+  createdAt?: Date;
 }
 
 export default function TodoList({
@@ -45,12 +46,14 @@ export default function TodoList({
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-3">
+      {filteredTodo.length === 0 && <div className="text-center text-red-900">No items!</div>}
       {filteredTodo.map(item => (
         <Card
           key={item.id}
           text={item.text}
           isDone={item.isDone}
           id={item.id}
+          createdAt={item.createdAt}
           handleDelte={handleDelte}
           handleChangeStatus={handleChangeStatus}
         />

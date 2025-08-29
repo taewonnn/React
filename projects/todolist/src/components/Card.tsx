@@ -2,11 +2,32 @@ interface ICard {
   text: string;
   isDone: boolean;
   id: string;
+  createdAt?: Date;
   handleDelte: (id: string) => void;
   handleChangeStatus: (id: string) => void;
 }
 
-export default function Card({ text, isDone, id, handleDelte, handleChangeStatus }: ICard) {
+export default function Card({
+  text,
+  isDone,
+  id,
+  handleDelte,
+  handleChangeStatus,
+  createdAt,
+}: ICard) {
+  // createdAt을 포맷팅하는 함수
+  const formatDate = (date?: Date) => {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  console.log(createdAt);
   return (
     <div
       className="w-full bg-white rounded-lg shadow-md p-4 mb-3 border border-gray-200 hover:shadow-lg transition-shadow duration-200"
@@ -28,6 +49,11 @@ export default function Card({ text, isDone, id, handleDelte, handleChangeStatus
             {text}
           </span>
         </div>
+
+        {/* 일자 표시 */}
+        {createdAt && (
+          <span className="text-xs mr-3 text-gray-400 font-mono">{formatDate(createdAt)}</span>
+        )}
 
         <div className="flex items-center space-x-2">
           <span

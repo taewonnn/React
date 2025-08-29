@@ -25,11 +25,11 @@ export default function AddTodo({
       return;
     }
 
-    setTodo([...todo, { id: uuidv4(), text: text, isDone: false }]); // 새로운 할 일 추가
+    setTodo([...todo, { id: uuidv4(), text: text, isDone: false, createdAt: new Date() }]); // 새로운 할 일 추가
     //세션에 추가된 할 일 저장
     sessionStorage.setItem(
       'todo',
-      JSON.stringify([...todo, { id: uuidv4(), text: text, isDone: false }]),
+      JSON.stringify([...todo, { id: uuidv4(), text: text, isDone: false, createdAt: new Date() }]),
     );
 
     setText(''); // Input 초기화
