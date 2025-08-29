@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
 import AddTodo from './components/AddTodo';
 import Tab, { type TabType } from './components/Tab';
-import TodoList from './components/TodoList';
-
-export interface ITodo {
-  id: string;
-  text: string;
-  isDone: boolean;
-}
+import TodoList, { type ITodo } from './components/TodoList';
 
 function App() {
   /** session에서 할 일 목록 있으면 가져오기 */

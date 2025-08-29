@@ -1,5 +1,10 @@
 import Card from './Card';
-import type { ITodo } from '../App';
+
+export interface ITodo {
+  id: string;
+  text: string;
+  isDone: boolean;
+}
 
 export default function TodoList({
   todo,
