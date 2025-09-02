@@ -9,4 +9,10 @@ export default defineConfig({
     host: true,
     open: true,
   },
+  resolve: {
+    alias: {
+      react: 'react',
+      'react-dom': 'react-dom',
+    },
+  },
 });
