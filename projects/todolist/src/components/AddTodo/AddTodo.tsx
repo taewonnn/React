@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { todoStore } from '../store/todoStore';
 
-interface IAddTodo {
-  onAdd: (todo: { id: string; todo: string; status: string }) => void;
-}
-
-export default function AddTodo({ onAdd }: IAddTodo) {
+export default function AddTodo() {
+  const { addTodo } = todoStore();
   const [text, setText] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,12 +13,13 @@ export default function AddTodo({ onAdd }: IAddTodo) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log('제출 시작');
     if (text.trim().length === 0) {
       alert('Please enter a todo');
       return;
     }
 
-    onAdd({ id: uuidv4(), todo: text, status: 'active' });
+    addTodo({ id: uuidv4(), todo: text, status: 'active' });
     setText('');
   };
 

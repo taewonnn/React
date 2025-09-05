@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import AddTodo from '../AddTodo/AddTodo';
 import Todo from '../Todo/Todo';
+import { todoStore } from '../store/todoStore';
 
 export interface Todo {
   id: string;
@@ -9,36 +9,16 @@ export interface Todo {
 }
 
 export default function TodoList() {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: '1', todo: 'Ex - 장보기', status: 'active' },
-    { id: '2', todo: 'Ex - 공부', status: 'active' },
-  ]);
-
-  const handleAddTodo = (todo: Todo) => {
-    console.log(todo);
-    setTodos([...todos, todo]);
-  };
-
-  const handleUpdateTodo = (id: string, newTodoText: string, newStatus?: string) => {
-    setTodos(
-      todos.map(todo =>
-        todo.id === id ? { ...todo, todo: newTodoText, status: newStatus || todo.status } : todo,
-      ),
-    );
-  };
-
-  const handleDeleteTodo = (id: string) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
+  const { todos } = todoStore();
 
   return (
     <section>
       <ul>
         {todos.map(todo => (
-          <Todo key={todo.id} todo={todo} onUpdate={handleUpdateTodo} onDelete={handleDeleteTodo} />
+          <Todo key={todo.id} todo={todo} />
         ))}
       </ul>
-      <AddTodo onAdd={handleAddTodo} />
+      <AddTodo />
     </section>
   );
 }
