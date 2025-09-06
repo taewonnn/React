@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Todo } from '../TodoList/TodoList';
+import type { Todo } from '../components/TodoList/TodoList';
 
 const sessionStorage = {
   getItem: (name: string) => {

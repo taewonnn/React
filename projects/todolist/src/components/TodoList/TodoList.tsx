@@ -1,6 +1,6 @@
 import AddTodo from '../AddTodo/AddTodo';
 import Todo from '../Todo/Todo';
-import { todoStore } from '../store/todoStore';
+import { todoStore } from '../../store/todoStore';
 
 export interface Todo {
   id: string;

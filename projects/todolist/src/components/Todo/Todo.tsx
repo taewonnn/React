@@ -1,6 +1,6 @@
 import { MdDelete } from 'react-icons/md';
 import type { Todo } from '../TodoList/TodoList';
-import { todoStore } from '../store/todoStore';
+import { todoStore } from '../../store/todoStore';
 import { useRef } from 'react';
 
 interface ITodo {
