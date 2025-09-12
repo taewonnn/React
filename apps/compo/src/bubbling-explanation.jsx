@@ -82,20 +82,20 @@ export default function BubblingExplanation() {
       >
         <h3>📚 이벤트 흐름 3단계</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginTop: '15px' }}>
-          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#ffe6e6', borderRadius: '8px' }}>
-            <h4>1️⃣ 캡처링 단계</h4>
-            <p>🔽 위에서 아래로</p>
-            <p>Body → Div → Button</p>
+          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#ffe6e6', borderRadius: '8px', color: '#333' }}>
+            <h4 style={{ color: '#d63384' }}>1️⃣ 캡처링 단계</h4>
+            <p style={{ color: '#333' }}>🔽 위에서 아래로</p>
+            <p style={{ color: '#333' }}>Body → Div → Button</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#e6ffe6', borderRadius: '8px' }}>
-            <h4>2️⃣ 타겟 단계</h4>
-            <p>🎯 실제 클릭된 요소</p>
-            <p>Button의 이벤트 실행</p>
+          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#e6ffe6', borderRadius: '8px', color: '#333' }}>
+            <h4 style={{ color: '#198754' }}>2️⃣ 타겟 단계</h4>
+            <p style={{ color: '#333' }}>🎯 실제 클릭된 요소</p>
+            <p style={{ color: '#333' }}>Button의 이벤트 실행</p>
           </div>
-          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#e6f3ff', borderRadius: '8px' }}>
-            <h4>3️⃣ 버블링 단계</h4>
-            <p>🔼 아래에서 위로</p>
-            <p>Button → Div → Body</p>
+          <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#e6f3ff', borderRadius: '8px', color: '#333' }}>
+            <h4 style={{ color: '#0d6efd' }}>3️⃣ 버블링 단계</h4>
+            <p style={{ color: '#333' }}>🔼 아래에서 위로</p>
+            <p style={{ color: '#333' }}>Button → Div → Body</p>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function BubblingExplanation() {
             }}
           >
             <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-              <strong>🟠 Outer Container (주황색)</strong>
+              <strong style={{ color: '#333', fontSize: '16px' }}>🟠 Outer Container (주황색)</strong>
             </div>
 
             <div
@@ -146,7 +146,7 @@ export default function BubblingExplanation() {
               }}
             >
               <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-                <strong>🟡 Middle Container (노란색)</strong>
+                <strong style={{ color: '#333', fontSize: '16px' }}>🟡 Middle Container (노란색)</strong>
               </div>
 
               <div style={{ textAlign: 'center' }}>
@@ -202,7 +202,9 @@ export default function BubblingExplanation() {
             }}
           >
             {logs.length === 0 ? (
-              <p style={{ color: '#666', fontStyle: 'italic' }}>위의 요소들을 클릭하면 이벤트 흐름이 여기에 표시됩니다.</p>
+              <p style={{ color: '#666', fontStyle: 'italic', fontSize: '14px' }}>
+                위의 요소들을 클릭하면 이벤트 흐름이 여기에 표시됩니다.
+              </p>
             ) : (
               logs.map(log => (
                 <div
@@ -227,11 +229,11 @@ export default function BubblingExplanation() {
 
       {/* 추가 설명 */}
       <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '10px' }}>
-        <h3>💡 핵심 포인트</h3>
+        <h3 style={{ color: '#333' }}>💡 핵심 포인트</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           <div>
-            <h4>🔄 이벤트 흐름 순서</h4>
-            <ol>
+            <h4 style={{ color: '#333' }}>🔄 이벤트 흐름 순서</h4>
+            <ol style={{ color: '#333' }}>
               <li>
                 <strong>캡처링:</strong> 최상위에서 타겟까지 내려감
               </li>
@@ -244,8 +246,8 @@ export default function BubblingExplanation() {
             </ol>
           </div>
           <div>
-            <h4>⚙️ 제어 방법</h4>
-            <ul>
+            <h4 style={{ color: '#333' }}>⚙️ 제어 방법</h4>
+            <ul style={{ color: '#333' }}>
               <li>
                 <code>addEventListener(event, handler, true)</code> - 캡처링
               </li>
@@ -263,8 +265,8 @@ export default function BubblingExplanation() {
         </div>
 
         <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '5px' }}>
-          <strong>🎯 실습 팁:</strong>
-          <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+          <strong style={{ color: '#333' }}>🎯 실습 팁:</strong>
+          <ul style={{ margin: '5px 0', paddingLeft: '20px', color: '#333' }}>
             <li>각 영역을 클릭해서 이벤트 순서 확인</li>
             <li>빨간 버튼으로 버블링 차단 테스트</li>
             <li>캡처링 체크박스로 캡처링 단계 on/off</li>
