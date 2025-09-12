@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 import Card from '../Card';
-import CourseItem from './CourseItem'
+import CourseItem from './CourseItem';
 
 function CourseListCard({ title, items }) {
-
   const lastIndex = items.length - 1;
 
   return (
@@ -12,7 +11,7 @@ function CourseListCard({ title, items }) {
         {items.map((item, index) => (
           <Fragment key={item.id}>
             <CourseItem {...item} />
-            {index !== lastIndex && <hr className="divider" />}
+            {index !== lastIndex && <hr className='divider' />}
           </Fragment>
         ))}
       </div>
