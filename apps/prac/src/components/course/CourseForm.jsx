@@ -16,7 +16,7 @@ export default function CourseForm() {
     console.log('e.target.name: ', e.target.name);
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value, // [e.target.name]은 변수명이 됨
     });
   };
   return (
