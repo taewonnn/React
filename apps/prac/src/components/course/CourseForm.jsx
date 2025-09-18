@@ -6,10 +6,13 @@ export default function CourseForm() {
     title: '리액트 강의',
     description: '리액트 기초부터 실전까지!',
   });
+
   function handleCourseForm(e) {
     e.preventDefault();
   }
+
   const handleChange = e => {
+    console.log('e.target: ', e.target);
     console.log('e.target.name: ', e.target.name);
     setForm({
       ...form,
