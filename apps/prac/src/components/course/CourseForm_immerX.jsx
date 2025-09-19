@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import Card from '../Card';
-import { useImmer } from 'use-immer';
 
 export default function CourseForm() {
-  const [form, updateForm] = useImmer({
+  const [form, setForm] = useState({
     title: '리액트 강의',
     description: '리액트 기초부터 실전까지!',
     info: {
@@ -16,40 +16,35 @@ export default function CourseForm() {
   }
 
   const handleChange = e => {
-    updateForm(draft => {
-      draft[e.target.name] = e.target.value;
+    console.log('e.target: ', e.target);
+    console.log('e.target.name: ', e.target.name);
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value, // [e.target.name]은 변수명이 됨
     });
   };
 
   //skill
   const handleSkillChange = e => {
-    updateForm(draft => {
-      draft.info.skill = e.target.value;
+    setForm({
+      ...form,
+      info: {
+        ...form.info, // 중첩된 객체를 유지하면서 skill 값만 변경
+        skill: e.target.value,
+      },
     });
-
-    // setForm({
-    //   ...form,
-    //   info: {
-    //     ...form.info, // 중첩된 객체를 유지하면서 skill 값만 변경
-    //     skill: e.target.value,
-    //   },
-    // });
   };
 
   // level
   const handleLevelChange = e => {
     console.log('e.target: ', e.target);
-    updateForm(draft => {
-      draft.info.level = e.target.value;
+    setForm({
+      ...form,
+      info: {
+        ...form.info, // 중첩된 객체를 유지하면서 level 값만 변경
+        level: e.target.value,
+      },
     });
-
-    // setForm({
-    //   ...form,
-    //   info: {
-    //     ...form.info, // 중첩된 객체를 유지하면서 level 값만 변경
-    //     level: e.target.value,
-    //   },
-    // });
   };
 
   return (
