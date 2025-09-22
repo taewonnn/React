@@ -7,7 +7,8 @@ This Turborepo starter is maintained by the Turborepo core team.
 Run the following command:
 
 ```sh
-npx create-turbo@latest
+npm create vite@latest
+npm create vite@latest my-app -- --template react
 ```
 
 ## What's inside?
