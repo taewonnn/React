@@ -1,5 +1,5 @@
+import { cardData } from '../data';
 import CanvasItem from './CanvasItem';
-import { cardData } from '../pages/Home';
 
 function CanvasList({ filteredCardData, isGridView, search }) {
   // 데이터 없을 떄
