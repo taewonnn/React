@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
 
 function Home() {
-  const [cards, setCards] = useState(cardData);
+  const [cards, setCards] = useState([]);
   const [isGridView, setIsGridView] = useState(true);
   const [search, setSearch] = useState('');
 
@@ -36,7 +36,7 @@ function Home() {
       </div>
 
       {/* 캔버스 리스트 UI */}
-      <CanvasList filteredCardData={filteredCardData} isGridView={isGridView} search={search} onDelete={onDelete} />
+      <CanvasList filteredCardData={filteredCardData} isGridView={isGridView} search={search} onDelete={onDelete} cards={cards} />
     </div>
   );
 }

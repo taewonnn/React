@@ -1,9 +1,8 @@
-import { cardData } from '../data';
 import CanvasItem from './CanvasItem';
 
-function CanvasList({ filteredCardData, isGridView, search, onDelete }) {
+function CanvasList({ cards, filteredCardData, isGridView, search, onDelete }) {
   // 데이터 없을 떄
-  if (cardData.length === 0) {
+  if (cards.length === 0) {
     return (
       <div className='text-center py-10'>
         <p className='text-xl text-gray-600'>{search ? '검색 결과가 없습니다' : '목록이 없습니다'}</p>
