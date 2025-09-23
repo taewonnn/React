@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { cardData } from '../data';
 import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
-import { cardData } from '../data';
 import ViewToggle from '../components/ViewToggle';
 
 function Home() {
+  const [cards, setCards] = useState(cardData);
   const [isGridView, setIsGridView] = useState(true);
   const [search, setSearch] = useState('');
 
@@ -13,13 +14,17 @@ function Home() {
     setSearch(e.target.value);
   };
 
-  const filteredCardData = cardData.filter(card => card.title.toLowerCase().includes(search.toLowerCase()));
+  const filteredCardData = cards.filter(card => card.title.toLowerCase().includes(search.toLowerCase()));
 
   // debugger
   // const filteredCardData = cardData.filter(card => {
   //   debugger;
   //   return card.title.toLowerCase().includes(search.toLowerCase());
   // });
+
+  const onDelete = id => {
+    setCards(cards.filter(card => card.id !== id));
+  };
 
   return (
     <div className='container mx-auto px-4 py-16'>
@@ -31,7 +36,7 @@ function Home() {
       </div>
 
       {/* 캔버스 리스트 UI */}
-      <CanvasList filteredCardData={filteredCardData} isGridView={isGridView} search={search} />
+      <CanvasList filteredCardData={filteredCardData} isGridView={isGridView} search={search} onDelete={onDelete} />
     </div>
   );
 }

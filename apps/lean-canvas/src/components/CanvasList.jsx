@@ -1,7 +1,7 @@
 import { cardData } from '../data';
 import CanvasItem from './CanvasItem';
 
-function CanvasList({ filteredCardData, isGridView, search }) {
+function CanvasList({ filteredCardData, isGridView, search, onDelete }) {
   // 데이터 없을 떄
   if (cardData.length === 0) {
     return (
@@ -15,7 +15,14 @@ function CanvasList({ filteredCardData, isGridView, search }) {
   return (
     <div className={`grid gap-6 ${isGridView ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} `}>
       {filteredCardData.map(card => (
-        <CanvasItem key={card.id} {...card} />
+        <CanvasItem
+          key={card.id}
+          {...card}
+          onDelete={e => {
+            e.preventDefault();
+            onDelete(card.id);
+          }}
+        />
       ))}
     </div>
   );
