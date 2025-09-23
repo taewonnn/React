@@ -1,41 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
-
 function Home() {
-  const [cards, setCards] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const [isGridView, setIsGridView] = useState(true);
-  const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
 
-  const handleSearch = e => {
-    console.log('input value: ', e.target.value);
-    setSearch(e.target.value);
+  async function fetchData() {
+    const data = await fetch('http://localhost:8000/canvases')
+      .then(res => res.json())
+      .catch(console.error);
+    setData(data);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDeleteItem = id => {
+    setData(data.filter(item => item.id !== id));
   };
 
-  const filteredCardData = cards.filter(card => card.title.toLowerCase().includes(search.toLowerCase()));
-
-  // debugger
-  // const filteredCardData = cardData.filter(card => {
-  //   debugger;
-  //   return card.title.toLowerCase().includes(search.toLowerCase());
-  // });
-
-  const onDelete = id => {
-    setCards(cards.filter(card => card.id !== id));
-  };
-
+  const filteredData = data.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
   return (
     <div className='container mx-auto px-4 py-16'>
       <div className='mb-6 flex flex-col sm:flex-row items-center justify-between'>
-        {/* 검색 UI */}
-        <SearchBar search={search} handleSearch={handleSearch} />
-        {/* 뷰 토글 UI */}
-        <ViewToggle setIsGridView={setIsGridView} isGridView={isGridView} />
+        <SearchBar searchText={searchText} setSearchText={setSearchText} />
+        <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
-
-      {/* 캔버스 리스트 UI */}
-      <CanvasList filteredCardData={filteredCardData} isGridView={isGridView} search={search} onDelete={onDelete} cards={cards} />
+      <CanvasList filteredData={filteredData} isGridView={isGridView} searchText={searchText} onDeleteItem={handleDeleteItem} />
     </div>
   );
 }
