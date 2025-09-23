@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { cardData } from '../data';
 import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
