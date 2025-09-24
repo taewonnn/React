@@ -18,6 +18,12 @@ function AppTodo() {
     setTodoText('');
   };
 
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      handleAddTodo();
+    }
+  };
+
   const handleChangeTodoText = e => {
     setTodoText(e.target.value);
   };
@@ -29,7 +35,13 @@ function AppTodo() {
   return (
     <div>
       <h2>할일목록</h2>
-      <input type='text' placeholder='할일을 입력하세요.' value={todoText} onChange={handleChangeTodoText} />
+      <input
+        type='text'
+        placeholder='할일을 입력하세요.'
+        value={todoText}
+        onChange={handleChangeTodoText}
+        onKeyDown={handleKeyDown}
+      />
       <button onClick={handleAddTodo}>추가</button>
       <div>Preview: {todoText}</div>
       <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
