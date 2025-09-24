@@ -3,6 +3,8 @@ import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
 import { getCanvases } from '../api/canvas';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
@@ -44,19 +46,19 @@ function Home() {
   // });
 
   return (
-    <div className='container mx-auto px-4 py-16'>
+    <>
       <div className='mb-6 flex flex-col sm:flex-row items-center justify-between'>
         <SearchBar searchText={searchText} setSearchText={setSearchText} />
         {/* 뷰 토글 UI */}
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
-      {isLoading && <div className='text-center py-10'>Loading...</div>}
-      {error && <div className='text-center py-10'>Error: {error}</div>}
+      {isLoading && <Loading />}
+      {error && <Error message={error.message} onRetry={() => fetchData({ title_like: searchText })} />}
       {/* 캔버스 리스트 UI */}
       {!isLoading && !error && (
         <CanvasList filteredData={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
       )}
-    </div>
+    </>
   );
 }
 
