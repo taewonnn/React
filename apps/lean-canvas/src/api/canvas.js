@@ -1,13 +1,25 @@
 import { canvases } from './http';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 // list 조회
-export const getCanvases = async params => {
-  // title이 있으면 부분 일치 검색을 위해 title_like 사용
-  if (params?.title) {
-    const searchParams = { title_like: params.title };
-    return canvases.get('/', { params: searchParams });
+export function getCanvases(params) {
+  const paylod = {Object.assign({
+    _sort: 'lastModified',
+    _order: 'desc',
   }
-  return canvases.get('/', { params: params });
-};
+  )
+  }
+  return canvases.get('/', { params: paylod });
+}
 
-// 저장, 수정 삭제
+// 생성
+export function createCanvas() {
+  const newCanvas = {
+    title: uuidv4().substring(0, 4) + '새로운 린 캔버스',
+    lastModified: dayjs().format('YYYY-MM-DD'),
+    caegory: '신규',
+  };
+
+  return canvases.post('/', newCanvas);
+}

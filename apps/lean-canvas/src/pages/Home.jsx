@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
-import { getCanvases } from '../api/canvas';
+import { createCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 
@@ -45,6 +45,10 @@ function Home() {
   //   return card.title.toLowerCase().includes(search.toLowerCase());
   // });
 
+  const handleCreateCanvas = async () => {
+    await createCanvas();
+    fetchData(searchText ? { title_like: searchText } : {});
+  };
   return (
     <>
       <div className='mb-6 flex flex-col sm:flex-row items-center justify-between'>
@@ -52,11 +56,12 @@ function Home() {
         {/* 뷰 토글 UI */}
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
+      <button onClick={handleCreateCanvas}>등록하기</button>
       {isLoading && <Loading />}
-      {error && <Error message={error.message} onRetry={() => fetchData({ title_like: searchText })} />}
+      {error && <Error message={error.message} onRetry={() => fetchData(searchText ? { title_like: searchText } : {})} />}
       {/* 캔버스 리스트 UI */}
       {!isLoading && !error && (
-        <CanvasList filteredData={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
+        <CanvasList data={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
       )}
     </>
   );
