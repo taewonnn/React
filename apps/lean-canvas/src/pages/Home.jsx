@@ -17,7 +17,7 @@ function Home() {
   useEffect(() => {
     console.log('검색어:', searchText);
     // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
-    fetchData(searchText ? { title: searchText } : {});
+    fetchData(searchText ? { title_like: searchText } : {});
   }, [searchText]);
 
   const handleDeleteItem = id => {
