@@ -9,21 +9,22 @@ function Home() {
   const [isGridView, setIsGridView] = useState(true);
   const [data, setData] = useState([]);
 
-  async function fetchData() {
-    const res = await getCanvases();
-    console.log(res);
+  async function fetchData(params) {
+    const res = await getCanvases(params);
     setData(res.data);
   }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    console.log('검색어:', searchText);
+    // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
+    fetchData(searchText ? { title: searchText } : {});
+  }, [searchText]);
 
   const handleDeleteItem = id => {
     setData(data.filter(item => item.id !== id));
   };
 
-  const filteredData = data.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
+  // const filteredData = data.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
 
   // ✅ debugger
   // const filteredCardData = cardData.filter(card => {
@@ -39,7 +40,7 @@ function Home() {
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
       {/* 캔버스 리스트 UI */}
-      <CanvasList filteredData={filteredData} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
+      <CanvasList filteredData={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
     </div>
   );
 }
