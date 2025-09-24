@@ -25,3 +25,9 @@ export function createCanvas() {
 
   return canvases.post('/', newCanvas);
 }
+
+// 삭제
+// async/await 사용하여 비동기 처리 -> return 값이 없음
+export async function deleteCanvas(id) {
+  await canvases.delete(`/${id}`);
+}

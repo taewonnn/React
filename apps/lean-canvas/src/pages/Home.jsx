@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CanvasList from '../components/CanvasList';
 import SearchBar from '../components/SearchBar';
 import ViewToggle from '../components/ViewToggle';
-import { createCanvas, getCanvases } from '../api/canvas';
+import { createCanvas, deleteCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
@@ -36,8 +36,18 @@ function Home() {
     fetchData(searchText ? { title_like: searchText } : {});
   }, [searchText]);
 
-  const handleDeleteItem = id => {
-    setData(data.filter(item => item.id !== id));
+  const handleDeleteItem = async id => {
+    try {
+      if (confirm('정말 삭제하시겠습니까?') === false) {
+        return;
+      }
+
+      await deleteCanvas(id);
+      fetchData({ title_like: searchText });
+    } catch (err) {
+      console.log('err: ', err);
+      alert('삭제 실패', err.message);
+    }
   };
 
   // const filteredData = data.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
