@@ -8,14 +8,25 @@ function Home() {
   const [searchText, setSearchText] = useState('');
   const [isGridView, setIsGridView] = useState(true);
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   async function fetchData(params) {
-    const res = await getCanvases(params);
-    setData(res.data);
+    try {
+      setIsLoading(true);
+      setError(null);
+      await new Promise(resolver => setTimeout(resolver, 2000)); // 2초 딜레이
+      const res = await getCanvases(params);
+      setData(res.data);
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
-    console.log('검색어:', searchText);
     // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
     fetchData(searchText ? { title_like: searchText } : {});
   }, [searchText]);
@@ -39,8 +50,12 @@ function Home() {
         {/* 뷰 토글 UI */}
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
+      {isLoading && <div className='text-center py-10'>Loading...</div>}
+      {error && <div className='text-center py-10'>Error: {error}</div>}
       {/* 캔버스 리스트 UI */}
-      <CanvasList filteredData={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
+      {!isLoading && !error && (
+        <CanvasList filteredData={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
+      )}
     </div>
   );
 }
