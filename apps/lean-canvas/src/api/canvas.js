@@ -4,12 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 // list 조회
 export function getCanvases(params) {
-  const paylod = {Object.assign({
-    _sort: 'lastModified',
-    _order: 'desc',
-  }
-  )
-  }
+  const paylod = Object.assign(
+    {
+      _sort: 'lastModified',
+      _order: 'desc',
+    },
+    params
+  );
+
   return canvases.get('/', { params: paylod });
 }
 
@@ -17,7 +19,7 @@ export function getCanvases(params) {
 export function createCanvas() {
   const newCanvas = {
     title: uuidv4().substring(0, 4) + '새로운 린 캔버스',
-    lastModified: dayjs().format('YYYY-MM-DD'),
+    lastModified: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     caegory: '신규',
   };
 

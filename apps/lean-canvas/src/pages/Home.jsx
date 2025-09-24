@@ -5,6 +5,7 @@ import ViewToggle from '../components/ViewToggle';
 import { createCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import Button from '../components/Button';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
@@ -13,11 +14,13 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false); // 등록 버튼 로딩 상태
+
   async function fetchData(params) {
     try {
       setIsLoading(true);
       setError(null);
-      await new Promise(resolver => setTimeout(resolver, 2000)); // 2초 딜레이
+      await new Promise(resolver => setTimeout(resolver, 1000)); // 1초 딜레이
       const res = await getCanvases(params);
       setData(res.data);
     } catch (err) {
@@ -45,10 +48,20 @@ function Home() {
   //   return card.title.toLowerCase().includes(search.toLowerCase());
   // });
 
+  /** 등록 버튼 */
   const handleCreateCanvas = async () => {
-    await createCanvas();
-    fetchData(searchText ? { title_like: searchText } : {});
+    try {
+      setIsLoadingCreate(true);
+      await createCanvas();
+      fetchData({ title_like: searchText });
+    } catch (err) {
+      console.log('err: ', err);
+      alert('등록 실패', err.message);
+    } finally {
+      setIsLoadingCreate(false);
+    }
   };
+
   return (
     <>
       <div className='mb-6 flex flex-col sm:flex-row items-center justify-between'>
@@ -56,7 +69,11 @@ function Home() {
         {/* 뷰 토글 UI */}
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
-      <button onClick={handleCreateCanvas}>등록하기</button>
+      <div className='mb-6 flex justify-end'>
+        <Button onClick={handleCreateCanvas} loading={isLoadingCreate}>
+          등록하기
+        </Button>
+      </div>
       {isLoading && <Loading />}
       {error && <Error message={error.message} onRetry={() => fetchData(searchText ? { title_like: searchText } : {})} />}
       {/* 캔버스 리스트 UI */}
