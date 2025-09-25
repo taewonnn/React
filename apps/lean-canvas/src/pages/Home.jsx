@@ -6,7 +6,7 @@ import { createCanvas, deleteCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
-import useApiRequest from '../hooks/useApiRequest';
+// import useApiRequest from '../hooks/useApiRequest';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
