@@ -52,8 +52,12 @@ function Home() {
   // 1. data 조회
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['canvases', filter.searchText, filter.category],
-    queryFn: () => getCanvases({ title_like: filter.searchText, category: filter.category }),
-    initialData: [],
+    queryFn: () => {
+      console.log('fetching data...');
+      return getCanvases({ title_like: filter.searchText, category: filter.category });
+    },
+    // initialData: [],
+    staleTime: 1000 * 60 * 5, // 5분 동안 데이터가 fresh 상태를 유지 시킴 기본적으로 0이므로 매번 데이터를 가져옴
   });
 
   // useEffect(() => {

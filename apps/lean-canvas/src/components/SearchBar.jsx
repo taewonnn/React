@@ -9,7 +9,7 @@ function SearchBar({ searchText, onSearch }) {
   };
 
   return (
-    <div className='relative w-full sm:w-64 '>
+  <div className='relative w-full sm:w-64 '>
       <input
         type='text'
         placeholder='검색'
