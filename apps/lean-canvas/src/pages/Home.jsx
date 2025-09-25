@@ -6,6 +6,7 @@ import { createCanvas, deleteCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
+import useApiRequest from '../hooks/useApiRequest';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
@@ -30,6 +31,21 @@ function Home() {
       setIsLoading(false);
     }
   }
+
+  // custom hook 적용
+  // const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
+
+  // useEffect(() => {
+  //   fetchData(
+  //     { title_like: searchText },
+  //     {
+  //       onSuccess: res => {
+  //         setData(res.data);
+  //       },
+  //       onError: err => {alert(err.message)},
+  //     }
+  //   );
+  // }, [searchText, fetchData]);
 
   useEffect(() => {
     // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
