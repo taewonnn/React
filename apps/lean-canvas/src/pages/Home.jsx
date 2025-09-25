@@ -8,10 +8,19 @@ import Loading from '../components/Loading';
 import Button from '../components/Button';
 import useApiRequest from '../hooks/useApiRequest';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import CategoryFilter from '../components/CategoryFilter';
 
 function Home() {
-  const [searchText, setSearchText] = useState('');
+  const [filter, setFilter] = useState({
+    searchText: null,
+    category: null,
+  });
   const [isGridView, setIsGridView] = useState(true);
+
+  const handleFilter = (key, value) => {
+    setFilter({ ...filter, [key]: value });
+  };
+
   // const [data, setData] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
@@ -42,8 +51,8 @@ function Home() {
 
   // 1. data 조회
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['canvases', searchText],
-    queryFn: () => getCanvases({ title_like: searchText }),
+    queryKey: ['canvases', filter.searchText, filter.category],
+    queryFn: () => getCanvases({ title_like: filter.searchText, category: filter.category }),
     initialData: [],
   });
 
@@ -97,7 +106,10 @@ function Home() {
   return (
     <>
       <div className='mb-6 flex flex-col sm:flex-row items-center justify-between'>
-        <SearchBar searchText={searchText} setSearchText={setSearchText} />
+        <div className='flex gap-2 flex-col w-full sm:flex-row mb-4 sm:mb-0'>
+          <SearchBar searchText={filter.searchText} onSearch={val => handleFilter('searchText', val)} />
+          <CategoryFilter category={filter.category} onChange={val => handleFilter('category', val)} />
+        </div>
         {/* 뷰 토글 UI */}
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
@@ -110,7 +122,7 @@ function Home() {
       {error && <Error message={error.message} onRetry={refetch} />}
       {/* 캔버스 리스트 UI */}
       {!isLoading && !error && (
-        <CanvasList data={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />
+        <CanvasList data={data} isGridView={isGridView} searchText={filter.searchText} onDelete={handleDeleteItem} />
       )}
     </>
   );
