@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 
-const Note = ({ id, handleDeleteNote }) => {
+const Note = ({ id, handleDeleteNote, content, color: initialColor }) => {
   const colorOptions = ['bg-yellow-300', 'bg-pink-300', 'bg-blue-300', 'bg-green-300'];
 
   /** textarea 참조값 */
@@ -10,10 +10,12 @@ const Note = ({ id, handleDeleteNote }) => {
   /** 수정모드 여부 */
   const [isEditing, setIsEditing] = useState(false);
 
-  /** 메모 내용 */
-  const [content, setContent] = useState('');
-
-  const [color, setColor] = useState(colorOptions[Math.floor(Math.random() * colorOptions.length)]);
+  const [color, setColor] = useState(() => {
+    if (initialColor) {
+      return initialColor;
+    }
+    return colorOptions[Math.floor(Math.random() * colorOptions.length)];
+  });
 
   /** 수정 모드 시작 */
   const handleEditNote = () => {
@@ -54,7 +56,7 @@ const Note = ({ id, handleDeleteNote }) => {
         readOnly={!isEditing}
         ref={textareaRef}
         value={content}
-        onChange={e => setContent(e.target.value)}
+        // onChange={e => setContent(e.target.value)}
       />
       {isEditing && (
         <div className='flex space-x-2'>
