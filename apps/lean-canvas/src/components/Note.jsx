@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 
-const Note = ({ id, handleDeleteNote, content, color: initialColor }) => {
+const Note = ({ id, handleDeleteNote, content, color: initialColor, onUpdateNote }) => {
   const colorOptions = ['bg-yellow-300', 'bg-pink-300', 'bg-blue-300', 'bg-green-300'];
 
   /** textarea 참조값 */
@@ -24,9 +24,15 @@ const Note = ({ id, handleDeleteNote, content, color: initialColor }) => {
 
   useEffect(() => {
     if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }
   }, [content]);
+
+  const handleColorChange = newColor => {
+    setColor(newColor);
+    onUpdateNote(id, content, newColor);
+  };
 
   return (
     <div className={`p-4 ${color} relative max-h-[32rem] overflow-hidden`} onClick={handleEditNote}>
@@ -56,7 +62,7 @@ const Note = ({ id, handleDeleteNote, content, color: initialColor }) => {
         readOnly={!isEditing}
         ref={textareaRef}
         value={content}
-        // onChange={e => setContent(e.target.value)}
+        onChange={e => onUpdateNote(id, e.target.value, color)}
       />
       {isEditing && (
         <div className='flex space-x-2'>
@@ -65,7 +71,7 @@ const Note = ({ id, handleDeleteNote, content, color: initialColor }) => {
               key={index}
               className={`w-6 h-6 rounded-full cursor-pointer outline outline-gray-50 ${option}`}
               aria-label={`Change color to ${option}`}
-              onClick={() => setColor(option)}
+              onClick={() => handleColorChange(option)}
             />
           ))}
         </div>
