@@ -58,6 +58,7 @@ function Home() {
     },
     // initialData: [],
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터가 fresh 상태를 유지 시킴 기본적으로 0이므로 매번 데이터를 가져옴
+    refetchOnWindowFocus: false, // 창 포커스 시 데이터 재요청 여부
   });
 
   // useEffect(() => {
