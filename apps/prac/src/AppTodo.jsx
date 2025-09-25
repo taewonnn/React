@@ -5,8 +5,8 @@ import TodoList from './components/todo/TodoList';
 function AppTodo() {
   const [todoText, setTodoText] = useState('');
   const [todos, setTodos] = useState([
-    { id: 0, text: 'HTML&CSS 공부하기' },
-    { id: 1, text: '자바스크립트 공부하기' },
+    { id: 0, text: 'HTML&CSS 공부하기', done: true },
+    { id: 1, text: '자바스크립트 공부하기', done: false },
   ]);
 
   const handleAddTodo = () => {
@@ -32,6 +32,11 @@ function AppTodo() {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
+  const handleToggleTodo = (id, checked) => {
+    console.log('handleToggleTodo', id, checked);
+    setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: checked } : todo)));
+  };
+
   return (
     <div>
       <h2>할일목록</h2>
@@ -44,7 +49,7 @@ function AppTodo() {
       />
       <button onClick={handleAddTodo}>추가</button>
       <div>Preview: {todoText}</div>
-      <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
+      <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} onToggleTodo={handleToggleTodo} />
     </div>
   );
 }
