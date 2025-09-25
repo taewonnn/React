@@ -6,51 +6,52 @@ import { createCanvas, deleteCanvas, getCanvases } from '../api/canvas';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
-// import useApiRequest from '../hooks/useApiRequest';
+import useApiRequest from '../hooks/useApiRequest';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [isGridView, setIsGridView] = useState(true);
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const [isLoadingCreate, setIsLoadingCreate] = useState(false); // 등록 버튼 로딩 상태
 
-  const [isLoadingCreate, setIsLoadingCreate] = useState(false); // 등록 버튼 로딩 상태
-
-  async function fetchData(params) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await new Promise(resolver => setTimeout(resolver, 1000)); // 1초 딜레이
-      const res = await getCanvases(params);
-      setData(res.data);
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  // custom hook 적용
-  // const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
+  // async function fetchData(params) {
+  //   try {
+  //     setIsLoading(true);
+  //     setError(null);
+  //     await new Promise(resolver => setTimeout(resolver, 1000)); // 1초 딜레이
+  //     const res = await getCanvases(params);
+  //     setData(res.data);
+  //   } catch (err) {
+  //     setError(err.message);
+  //     setIsLoading(false);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
 
   // useEffect(() => {
-  //   fetchData(
-  //     { title_like: searchText },
-  //     {
-  //       onSuccess: res => {
-  //         setData(res.data);
-  //       },
-  //       onError: err => {alert(err.message)},
-  //     }
-  //   );
-  // }, [searchText, fetchData]);
+  //   // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
+  //   fetchData(searchText ? { title_like: searchText } : {});
+  // }, [searchText]);
+
+  // custom hook 적용
+  const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
 
   useEffect(() => {
-    // 빈 문자열이면 모든 데이터를 가져오고, 값이 있으면 해당 제목으로 필터링
-    fetchData(searchText ? { title_like: searchText } : {});
-  }, [searchText]);
+    fetchData(
+      { title_like: searchText },
+      {
+        onSuccess: res => {
+          setData(res.data);
+        },
+        onError: err => {
+          alert(err.message);
+        },
+      }
+    );
+  }, [searchText, fetchData]);
 
   const handleDeleteItem = async id => {
     try {
@@ -59,33 +60,39 @@ function Home() {
       }
 
       await deleteCanvas(id);
-      fetchData({ title_like: searchText });
+      fetchData(
+        { title_like: searchText },
+        {
+          onSuccess: res => {
+            setData(res.data);
+          },
+        }
+      );
     } catch (err) {
       console.log('err: ', err);
       alert('삭제 실패', err.message);
     }
   };
 
-  // const filteredData = data.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()));
-
-  // ✅ debugger
-  // const filteredCardData = cardData.filter(card => {
-  //   debugger;
-  //   return card.title.toLowerCase().includes(search.toLowerCase());
-  // });
+  const { isLoading: isLoadingCreate, execute: createNewCanvas } = useApiRequest(createCanvas);
 
   /** 등록 버튼 */
   const handleCreateCanvas = async () => {
-    try {
-      setIsLoadingCreate(true);
-      await createCanvas();
-      fetchData({ title_like: searchText });
-    } catch (err) {
-      console.log('err: ', err);
-      alert('등록 실패', err.message);
-    } finally {
-      setIsLoadingCreate(false);
-    }
+    createNewCanvas(null, {
+      onSuccess: () => {
+        fetchData(
+          { title_like: searchText },
+          {
+            onSuccess: res => {
+              setData(res.data);
+            },
+          }
+        );
+      },
+      onError: err => {
+        alert(err.message);
+      },
+    });
   };
 
   return (

@@ -6,7 +6,7 @@ function useApiRequest(apiFunction) {
 
   // options: {onSuccess, onError}
   const execute = useCallback(
-    async (params, { onSuccess, onError }) => {
+    async (params, { onSuccess, onError } = {}) => {
       try {
         setIsLoaing(true);
         setError(null);
