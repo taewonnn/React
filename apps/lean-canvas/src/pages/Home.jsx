@@ -7,11 +7,12 @@ import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Button from '../components/Button';
 import useApiRequest from '../hooks/useApiRequest';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 function Home() {
   const [searchText, setSearchText] = useState('');
   const [isGridView, setIsGridView] = useState(true);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
   // const [isLoadingCreate, setIsLoadingCreate] = useState(false); // 등록 버튼 로딩 상태
@@ -37,63 +38,61 @@ function Home() {
   // }, [searchText]);
 
   // custom hook 적용
-  const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
+  // const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
 
-  useEffect(() => {
-    fetchData(
-      { title_like: searchText },
-      {
-        onSuccess: res => {
-          setData(res.data);
-        },
-        onError: err => {
-          alert(err.message);
-        },
-      }
-    );
-  }, [searchText, fetchData]);
+  // 1. data 조회
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['canvases', searchText],
+    queryFn: () => getCanvases({ title_like: searchText }),
+    initialData: [],
+  });
+
+  // useEffect(() => {
+  //   fetchData(
+  //     { title_like: searchText },
+  //     {
+  //       onSuccess: res => {
+  //         setData(res.data);
+  //       },
+  //       onError: err => {
+  //         alert(err.message);
+  //       },
+  //     }
+  //   );
+  // }, [searchText, fetchData]);
 
   const handleDeleteItem = async id => {
-    try {
-      if (confirm('정말 삭제하시겠습니까?') === false) {
-        return;
-      }
-
-      await deleteCanvas(id);
-      fetchData(
-        { title_like: searchText },
-        {
-          onSuccess: res => {
-            setData(res.data);
-          },
-        }
-      );
-    } catch (err) {
-      console.log('err: ', err);
-      alert('삭제 실패', err.message);
+    if (confirm('정말 삭제하시겠습니까?') === false) {
+      return;
     }
+    deleteCanvasMutation(id);
   };
 
-  const { isLoading: isLoadingCreate, execute: createNewCanvas } = useApiRequest(createCanvas);
+  // const { isLoading: isLoadingCreate, execute: createNewCanvas } = useApiRequest(createCanvas);
+  // 2. 등록
+  const { mutate: createNewCanvas, isLoading: isLoadingCreate } = useMutation({
+    mutationFn: createCanvas,
+    onSuccess: () => queryClient.invalidateQueries(['canvases']),
+    onError: err => {
+      alert(err.message);
+    },
+  });
+
+  const queryClient = useQueryClient();
 
   /** 등록 버튼 */
   const handleCreateCanvas = async () => {
-    createNewCanvas(null, {
-      onSuccess: () => {
-        fetchData(
-          { title_like: searchText },
-          {
-            onSuccess: res => {
-              setData(res.data);
-            },
-          }
-        );
-      },
-      onError: err => {
-        alert(err.message);
-      },
-    });
+    createNewCanvas();
   };
+
+  // 3. 삭제
+  const { mutate: deleteCanvasMutation } = useMutation({
+    mutationFn: deleteCanvas,
+    onSuccess: () => queryClient.invalidateQueries(['canvases']),
+    onError: err => {
+      alert(err.message);
+    },
+  });
 
   return (
     <>
@@ -108,7 +107,7 @@ function Home() {
         </Button>
       </div>
       {isLoading && <Loading />}
-      {error && <Error message={error.message} onRetry={() => fetchData(searchText ? { title_like: searchText } : {})} />}
+      {error && <Error message={error.message} onRetry={refetch} />}
       {/* 캔버스 리스트 UI */}
       {!isLoading && !error && (
         <CanvasList data={data} isGridView={isGridView} searchText={searchText} onDelete={handleDeleteItem} />

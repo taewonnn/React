@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 
 // list 조회
-export function getCanvases(params) {
+export async function getCanvases(params) {
   const paylod = Object.assign(
     {
       _sort: 'lastModified',
@@ -12,7 +12,8 @@ export function getCanvases(params) {
     params
   );
 
-  return canvases.get('/', { params: paylod });
+  const { data } = await canvases.get('/', { params: paylod });
+  return data;
 }
 
 // 생성
