@@ -32,6 +32,15 @@ function AppTodo() {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
+  // n번째에 추가
+  const handleAddTodoTest = () => {
+    // n번째에 추가
+    const n = parseInt(document.getElementById('order').value);
+    const nextId = todos.length + Math.floor(Math.random() * 10000);
+
+    setTodos([...todos.slice(0, n), { id: nextId, text: todoText }, ...todos.slice(n)]);
+  };
+
   const handleToggleTodo = (id, checked) => {
     console.log('handleToggleTodo', id, checked);
     setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: checked } : todo)));
@@ -40,14 +49,27 @@ function AppTodo() {
   return (
     <div>
       <h2>할일목록</h2>
-      <input
-        type='text'
-        placeholder='할일을 입력하세요.'
-        value={todoText}
-        onChange={handleChangeTodoText}
-        onKeyDown={handleKeyDown}
-      />
-      <button onClick={handleAddTodo}>추가</button>
+      <div>
+        <input
+          type='text'
+          placeholder='할일을 입력하세요.'
+          value={todoText}
+          onChange={handleChangeTodoText}
+          onKeyDown={handleKeyDown}
+        />
+        <button onClick={handleAddTodo}>추가</button>
+      </div>
+
+      <div>
+        <select name='order' id='order'>
+          {todos.map((_, index) => (
+            <option key={index} value={index}>
+              {index}번째
+            </option>
+          ))}
+        </select>
+        <button onClick={handleAddTodoTest}>0번째 추가</button>
+      </div>
       <div>Preview: {todoText}</div>
       <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} onToggleTodo={handleToggleTodo} />
     </div>
