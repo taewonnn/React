@@ -33,7 +33,7 @@ function AppTodo() {
   };
 
   // n번째에 추가
-  const handleAddTodoTest = () => {
+  const handleAddTodoByIndex = () => {
     // n번째에 추가
     const n = parseInt(document.getElementById('order').value);
     const nextId = todos.length + Math.floor(Math.random() * 10000);
@@ -68,7 +68,7 @@ function AppTodo() {
             </option>
           ))}
         </select>
-        <button onClick={handleAddTodoTest}>0번째 추가</button>
+        <button onClick={handleAddTodoByIndex}>0번째 추가</button>
       </div>
       <div>Preview: {todoText}</div>
       <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} onToggleTodo={handleToggleTodo} />
