@@ -38,7 +38,7 @@ function AppTodo() {
     const n = parseInt(document.getElementById('order').value);
     const nextId = todos.length + Math.floor(Math.random() * 10000);
 
-    setTodos([...todos.slice(0, n), { id: nextId, text: todoText }, ...todos.slice(n)]);
+    setTodos([...todos.slice(0, n), { id: nextId, text: todoText, done: false }, ...todos.slice(n)]);
   };
 
   const handleToggleTodo = (id, checked) => {
