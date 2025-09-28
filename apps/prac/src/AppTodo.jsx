@@ -46,6 +46,16 @@ function AppTodo() {
     setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: checked } : todo)));
   };
 
+  const handleReverse = () => {
+    // 새로운 배열로 복사
+    // const nextTodos = [...todos];
+    // setTodos(nextTodos.reverse());
+
+    // ✅ toReversed() - 새로운 배열을 반환 (non-mutating)
+    // React가 참조 비교를 했을 때 다른 배열이므로 변화를 감지합니다
+    setTodos(todos.toReversed());
+  };
+
   return (
     <div>
       <h2>할일목록</h2>
@@ -71,6 +81,7 @@ function AppTodo() {
         <button onClick={handleAddTodoByIndex}>0번째 추가</button>
       </div>
       <div>Preview: {todoText}</div>
+      <button onClick={handleReverse}>Reverse</button>
       <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} onToggleTodo={handleToggleTodo} />
     </div>
   );
