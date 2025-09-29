@@ -14,11 +14,13 @@ function LinkIconBtn({ link }) {
   );
 }
 
-export default function CourseItem({ title, description, thumbnail, isFavorite, link }) {
+export default function CourseItem({ id, title, description, thumbnail, isFavorite, link, onFavoriteChange }) {
   function handleFavorite(e) {
     e.stopPropagation();
-    alert(isFavorite ? '좋아요' : '모르겠어요.');
+    // alert(isFavorite ? '좋아요' : '모르겠어요.');
+    onFavoriteChange(id, !isFavorite);
   }
+
   function handleItemClick() {
     open(link, '_blank');
   }
