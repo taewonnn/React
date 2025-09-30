@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import './App.css';
 import TodoList from './components/todo/TodoList';
+import todoReducer from './reducer/todo-reducer';
 
 function AppTodo() {
   const [todoText, setTodoText] = useState('');
-  const [todos, setTodos] = useState([
+  // const [todos, setTodos] = useState([
+  //   { id: 0, text: 'HTML&CSS 공부하기', done: true },
+  //   { id: 1, text: '자바스크립트 공부하기', done: false },
+  // ]);
+
+  const [todos, dispatch] = useReducer(todoReducer, [
     { id: 0, text: 'HTML&CSS 공부하기', done: true },
     { id: 1, text: '자바스크립트 공부하기', done: false },
   ]);
 
+  // 추가
   const handleAddTodo = () => {
     if (!todoText) alert('할일을 입력하세요.');
 
     const nextId = todos.length + Math.floor(Math.random() * 10000);
-    setTodos([...todos, { id: nextId, text: todoText }]);
+    dispatch({ type: 'added', id: nextId, text: todoText });
+
+    // setTodos([...todos, { id: nextId, text: todoText }]);
 
     setTodoText('');
   };
@@ -28,24 +37,30 @@ function AppTodo() {
     setTodoText(e.target.value);
   };
 
+  // 제거
   const handleDeleteTodo = id => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    dispatch({ type: 'deleted', id });
+    //setTodos(todos.filter(todo => todo.id !== id));
   };
 
-  // n번째에 추가
+  // 인덱스 기반 추가  => n번째에 추가
   const handleAddTodoByIndex = () => {
     // n번째에 추가
     const n = parseInt(document.getElementById('order').value);
     const nextId = todos.length + Math.floor(Math.random() * 10000);
 
-    setTodos([...todos.slice(0, n), { id: nextId, text: todoText, done: false }, ...todos.slice(n)]);
+    dispatch({ type: 'added_index', index: n, id: nextId, text: todoText });
+    // setTodos([...todos.slice(0, n), { id: nextId, text: todoText, done: false }, ...todos.slice(n)]);
   };
 
+  // 완료 토글
   const handleToggleTodo = (id, checked) => {
     console.log('handleToggleTodo', id, checked);
-    setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: checked } : todo)));
+    dispatch({ type: 'done', id, done: checked });
+    //setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: checked } : todo)));
   };
 
+  // reverse
   const handleReverse = () => {
     // 새로운 배열로 복사
     // const nextTodos = [...todos];
@@ -53,7 +68,9 @@ function AppTodo() {
 
     // ✅ toReversed() - 새로운 배열을 반환 (non-mutating)
     // React가 참조 비교를 했을 때 다른 배열이므로 변화를 감지합니다
-    setTodos(todos.toReversed());
+
+    dispatch({ type: 'reverse' });
+    // setTodos(todos.toReversed());
   };
 
   return (
