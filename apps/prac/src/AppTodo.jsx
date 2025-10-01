@@ -29,7 +29,8 @@ function AppTodo() {
   };
 
   const handleKeyDown = e => {
-    if (e.key === 'Enter') {
+    console.log('조합중 isComposing: ', e.nativeEvent.isComposing); // 한글 같은 조합문자에서 사용되는 경우
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       handleAddTodo();
     }
   };
