@@ -9,23 +9,31 @@
 // (state => 관리할 상태의 초기값 , action => 액션 객체)
 //}
 
-export default function todoReducer(todos, action) {
+export default function todoReducer(draft, action) {
   // type => 액션의 타입
   switch (action.type) {
     case 'added': {
-      return [...todos, { id: action.id, text: action.text, done: false }];
+      draft.push({ id: action.id, text: action.text, done: false });
+      break;
     }
     case 'added_index': {
-      return [...todos.slice(0, action.index), { id: action.id, text: action.text, done: false }, ...todos.slice(action.index)];
+      draft.splice(action.index, 0, { id: action.id, text: action.text, done: false });
+      break;
     }
     case 'deleted': {
-      return todos.filter(todo => todo.id !== action.id);
+      draft.splice(
+        draft.findIndex(todo => todo.id === action.id),
+        1
+      );
+      break;
     }
     case 'done': {
-      return todos.map(todo => (todo.id === action.id ? { ...todo, done: action.done } : todo));
+      draft.find(todo => todo.id === action.id).done = action.done;
+      break;
     }
     case 'reverse': {
-      return todos.toReversed();
+      draft.reverse();
+      break;
     }
     default: {
       throw Error('Unknown action', action.type);
