@@ -1,17 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function AppEffect() {
-  // ‼️ DOM 조작
-  useEffect(() => {
-    // DOM이 마운트 된 이후에 실행시켜!
-    const h2 = document.querySelector('#title');
-    // console.log('h2: ', h2);
-    h2.textContent = 'Data Fetching';
-    return () => {
-      // console.log('unmount');
-    };
-  }, []);
-
+function Courses() {
   const [list, setList] = useState([]);
   const [filter, setFilter] = useState('all');
 
@@ -39,11 +28,14 @@ export default function AppEffect() {
           setList(res);
         }
       });
+
+    return () => {
+      console.log('unmount / 연결 해제');
+    };
   }, [filter]);
 
   return (
     <>
-      <h2 id='title'>데이터 가져오기</h2>
       <label htmlFor='all'>전체</label>
       <input id='all' type='radio' value='all' checked={filter === 'all'} onChange={e => setFilter(e.target.value)} />
       <label htmlFor='favorite'>좋아요</label>
@@ -60,6 +52,30 @@ export default function AppEffect() {
           return <li key={item.id}> {item.title} </li>;
         })}
       </ul>
+    </>
+  );
+}
+
+export default function AppEffect() {
+  // ‼️ DOM 조작
+  useEffect(() => {
+    // DOM이 마운트 된 이후에 실행시켜!
+    const h2 = document.querySelector('#title');
+    // console.log('h2: ', h2);
+    h2.textContent = 'Data Fetching';
+    return () => {
+      // console.log('unmount');
+    };
+  }, []);
+
+  const [show, setShow] = useState(true);
+
+  return (
+    <>
+      <h2 id='title'>데이터 가져오기</h2>
+      <button onClick={() => setShow(prev => !prev)}>toggle</button>
+      <hr />
+      {show && <Courses />}
     </>
   );
 }
