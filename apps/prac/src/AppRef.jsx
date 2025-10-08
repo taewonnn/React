@@ -18,6 +18,62 @@ function ButtonCounter() {
   );
 }
 
+function Form() {
+  const [form, setForm] = useState({
+    title: '제목',
+    author: 'taewon',
+    content: 'content----',
+  });
+
+  const titleRef = useRef(null);
+  const authorRef = useRef(null);
+  const contentRef = useRef(null);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log('title: ', titleRef.current);
+    console.log('author: ', authorRef.current);
+    console.log('content: ', contentRef.current);
+
+    if (!form.title) {
+      titleRef.current.focus();
+      return;
+    }
+
+    if (!form.author) {
+      authorRef.current.focus();
+      return;
+    }
+
+    if (!form.content) {
+      contentRef.current.focus();
+      return;
+    }
+  };
+
+  const handleForm = e => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <fieldset>
+        <legend>글쓰기</legend>
+        <input type='text' name='title' placeholder='제목' ref={titleRef} value={form.title} onChange={handleForm} />
+        <hr />
+        <input type='text' name='author' placeholder='작성자' ref={authorRef} value={form.author} onChange={handleForm} />
+        <hr />
+        <textarea name='content' placeholder='내용' ref={contentRef} value={form.content} onChange={handleForm} />
+        <hr />
+        <button>전송</button>
+      </fieldset>
+    </form>
+  );
+}
+
 export default function AppRef() {
   const countRef = useRef(0);
 
@@ -40,6 +96,9 @@ export default function AppRef() {
       <ButtonCounter />
       {/* useRef */}
       <button onClick={handleClick}>ref Count</button>
+
+      <h2>Form</h2>
+      <Form />
     </>
   );
 }
