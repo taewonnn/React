@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 let counter = 0; // 전역 변수
 
@@ -20,7 +20,7 @@ function ButtonCounter() {
 
 function Form() {
   const [form, setForm] = useState({
-    title: '제목',
+    title: '',
     author: 'taewon',
     content: 'content----',
   });
