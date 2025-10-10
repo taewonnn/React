@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
 let counter = 0; // 전역 변수
 
@@ -18,7 +18,11 @@ function ButtonCounter() {
   );
 }
 
-function Form() {
+/**
+ * forwardRef
+ * 컴포넌트에 대한 참조값을 얻을 수 있음
+ */
+const MyForm = forwardRef((props, ref) => {
   const [form, setForm] = useState({
     title: '',
     author: 'taewon',
@@ -28,6 +32,8 @@ function Form() {
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const contentRef = useRef(null);
+
+  const formRef = useRef(null);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -58,21 +64,26 @@ function Form() {
     });
   };
 
+  useEffect(() => {
+    console.log('formRef: ', formRef);
+  }, []);
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>글쓰기</legend>
-        <input type='text' name='title' placeholder='제목' ref={titleRef} value={form.title} onChange={handleForm} />
-        <hr />
-        <input type='text' name='author' placeholder='작성자' ref={authorRef} value={form.author} onChange={handleForm} />
-        <hr />
-        <textarea name='content' placeholder='내용' ref={contentRef} value={form.content} onChange={handleForm} />
-        <hr />
-        <button>전송</button>
-      </fieldset>
-    </form>
+    <div ref={ref}>
+      <form onSubmit={handleSubmit} ref={formRef}>
+        <fieldset>
+          <legend>글쓰기</legend>
+          <input type='text' name='title' placeholder='제목' ref={titleRef} value={form.title} onChange={handleForm} />
+          <hr />
+          <input type='text' name='author' placeholder='작성자' ref={authorRef} value={form.author} onChange={handleForm} />
+          <hr />
+          <textarea name='content' placeholder='내용' ref={contentRef} value={form.content} onChange={handleForm} />
+          <hr />
+          <button disabled={!form.title || !form.author || !form.content}>전송</button>
+        </fieldset>
+      </form>
+    </div>
   );
-}
+});
 
 export default function AppRef() {
   const countRef = useRef(0);
@@ -87,6 +98,13 @@ export default function AppRef() {
     countRef.current++;
   };
 
+  /** 컴포넌트에 대한 참조값은 얻을 수 없음  -> React.forwardRef 사용 필요 */
+  const myFormRef = useRef(null);
+
+  useEffect(() => {
+    console.log('myFormRef: ', myFormRef); // myFormRef:  {current: null}
+  }, []);
+
   return (
     <>
       <h2>Count</h2>
@@ -98,7 +116,7 @@ export default function AppRef() {
       <button onClick={handleClick}>ref Count</button>
 
       <h2>Form</h2>
-      <Form />
+      <MyForm ref={myFormRef} />
     </>
   );
 }
