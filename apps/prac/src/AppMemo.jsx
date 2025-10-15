@@ -37,6 +37,13 @@ export default function AppMemo() {
   const [count, setCount] = useState(0);
   const [otherState, setOtherState] = useState(0);
 
+  // useMemo를 안쓰면?
+  // AppMemo 컴포넌트가 읽히면 courses 배열이 만들어짐
+  // ‼️ 이 배열 내용이 변경 안되어도 object 참조값이 변경되어서 컴포넌트가 리렌더링 됨!!
+  // 그래서 useMemo를 사용해서 성능 최적화를 함
+  // 이 함수는 컴포넌트가 읽히면 한번만 실행되고 이후에는 실행되지 않음
+  // 그래서 성능 최적화를 할 수 있음
+
   const courses = useMemo(() => {
     return [
       { id: 0, text: '리액트 강의', level: 1 },
