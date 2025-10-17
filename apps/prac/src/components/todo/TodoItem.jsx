@@ -1,6 +1,12 @@
+import { memo } from 'react';
 import { useTodoDispatch } from '../../context/TodoContext';
 
-export default function TodoItem({ item }) {
+/**
+ * memo를 사용하지 않을 때는 할일 목록 중 하나 선택해서 완료상태 변경해도 나머지 모든 할일 목록을 렌더링 해버림
+ * memo를 사용하면 할일 목록 중 하나 선택해서 완료상태 변경해도 나머지 모든 할일 목록을 렌더링 하지 않음(변경되는 할일목록에 대한것만 리렌더링)
+ */
+export default memo(function TodoItem({ item }) {
+  console.log('TodoItem 렌더링');
   const dispatch = useTodoDispatch();
 
   const handleToggleTodo = (id, done) => {
@@ -18,4 +24,4 @@ export default function TodoItem({ item }) {
       <button onClick={() => handleDeleteTodo(item.id)}>X</button>
     </label>
   );
-}
+});

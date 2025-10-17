@@ -36,7 +36,7 @@ export default function TodoList() {
    * todos 배열이 변경될 때만 함수 실행
    */
   const getStatsCount = useMemo(() => {
-    console.log('getStatsCount 함수 실행!');
+    // console.log('getStatsCount 함수 실행!');
     const totalCount = todos.length;
     const doneCount = todos.filter(item => item.done).length;
 
