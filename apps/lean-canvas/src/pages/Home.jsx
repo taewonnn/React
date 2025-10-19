@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FaSearch, FaList, FaTh } from 'react-icons/fa';
+import CanvasItem from '../components/CanvasItem';
 
 let cardData = [
   { id: 1, title: '친환경 도시 농업 플랫폼', lastModified: '2023-06-15', tags: '농업' },
@@ -65,19 +65,7 @@ function Home() {
       ) : (
         <div className={`grid gap-6 ${isGridView ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} `}>
           {filteredCardData.map(card => (
-            <Link
-              key={card.id}
-              className='bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105'
-              to={`/canvases/${card.id}`}
-            >
-              <div className='p-6'>
-                <h2 className='text-2xl font-bold mb-2 text-gray-800'>{card.title}</h2>
-                <p className='text-sm text-gray-600 mb-4'>최근 수정일: {card.lastModified}</p>
-                <span className='inline-block px-3 py-1 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full'>
-                  {card.tags}
-                </span>
-              </div>
-            </Link>
+            <CanvasItem key={card.id} {...card} />
           ))}
         </div>
       )}
