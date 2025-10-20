@@ -19,7 +19,7 @@ function CanvasList({ filteredCardData, isGridView, search, onDelete }) {
           key={card.id}
           {...card}
           onDelete={e => {
-            e.preventDefault();
+            e.preventDefault(); // 기본동작 막기
             onDelete(card.id);
           }}
         />
