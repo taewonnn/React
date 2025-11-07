@@ -1,3 +1,4 @@
+import { useCartStore } from '../../stores/cartStore';
 import type { Product } from '../types';
 import ProductCard from './ProductCard';
 
@@ -53,8 +54,10 @@ const mockProducts: Product[] = [
 ];
 
 function ProductList() {
+  const { addProduct } = useCartStore();
+
   const handleAddToCart = (product: Product) => {
-    console.log('Add to cart:', product);
+    addProduct({ ...product, quantity: 1 });
   };
 
   return (

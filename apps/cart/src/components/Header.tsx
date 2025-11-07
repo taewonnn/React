@@ -1,12 +1,14 @@
+import { useCartStore } from '../../stores/cartStore';
 import type { ViewType } from '../types';
 
 interface HeaderProps {
   currentView: ViewType;
   onViewChange: (view: ViewType) => void;
-  cartItemCount: number;
 }
 
-function Header({ currentView, onViewChange, cartItemCount }: HeaderProps) {
+function Header({ currentView, onViewChange }: HeaderProps) {
+  const { products } = useCartStore();
+
   return (
     <header className='bg-white shadow-sm border-b'>
       <div className='max-w-7xl mx-auto px-4 py-4'>
@@ -30,9 +32,9 @@ function Header({ currentView, onViewChange, cartItemCount }: HeaderProps) {
               onClick={() => onViewChange('cart')}
             >
               장바구니
-              {cartItemCount > 0 && (
+              {products.length > 0 && (
                 <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>
-                  {cartItemCount}
+                  {products.length}
                 </span>
               )}
             </button>
